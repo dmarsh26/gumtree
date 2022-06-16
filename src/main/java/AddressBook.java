@@ -28,6 +28,10 @@ class AddressBook {
     return addressBook.stream().filter(r -> r.gender.equals(gender)).count();
   }
 
+  public LocalDate findOldest() {
+    return addressBook.stream().map(r -> r.date).min(LocalDate::compareTo).get();
+  }
+
   static class Record {
     String name;
     Gender gender;
