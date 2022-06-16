@@ -36,7 +36,7 @@ class AddressBook {
   }
 
   public Optional<LocalDate> findAge(String fullname) {
-    return addressBook.stream().filter(r -> r.equals(fullname)).map(r -> r.date).findFirst();
+    return addressBook.stream().filter(r -> r.name.equals(fullname)).map(r -> r.date).findFirst();
   }
 
   static class Record {

@@ -1,3 +1,4 @@
+import static java.time.temporal.ChronoUnit.DAYS;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
@@ -37,9 +38,9 @@ public class AddressBookTest {
     Optional<LocalDate> ageBill = addressBook.findAge("Bill McKnight");
     Optional<LocalDate> agePaul = addressBook.findAge("Paul Robinson");
 
-    long daysBetween = Duration.between(ageBill.get(), agePaul.get()).toDays();
+    long daysBetween = DAYS.between(ageBill.get(), agePaul.get());
 
-    assertEquals("2862", daysBetween);
+    assertEquals(2862L, daysBetween);
   }
 
 }
