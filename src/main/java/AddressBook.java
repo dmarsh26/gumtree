@@ -4,9 +4,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.FormatStyle;
+import java.time.temporal.ChronoField;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -32,6 +35,10 @@ class AddressBook {
     return addressBook.stream().map(r -> r.date).min(LocalDate::compareTo).get();
   }
 
+  public Optional<LocalDate> findAge(String fullname) {
+    return addressBook.stream().filter(r -> r.equals(fullname)).map(r -> r.date).findFirst();
+  }
+
   static class Record {
     String name;
     Gender gender;
@@ -40,7 +47,12 @@ class AddressBook {
     public Record(String[] split) {
       name = split[0];
       gender = Gender.valueOf(split[1]);
-      date = LocalDate.parse(split[2], DateTimeFormatter.ofPattern("d/MM/uu"));
+
+      DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+        .appendPattern("d/MM/")
+        .appendValueReduced(ChronoField.YEAR, 2, 2, 1900)
+        .toFormatter();
+      date = LocalDate.parse(split[2], formatter);
     }
   }
 }

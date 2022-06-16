@@ -4,9 +4,11 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Optional;
 
 public class AddressBookTest {
 
@@ -25,7 +27,19 @@ public class AddressBookTest {
 
     LocalDate oldest = addressBook.findOldest();
 
-    assertEquals("14/08/2074", oldest.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)));
+    assertEquals("14/08/1974", oldest.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)));
+  }
+
+  @Test
+  void howManyDaysOlderIsBillThanPaul() throws URISyntaxException, IOException {
+    AddressBook addressBook = new AddressBook();
+
+    Optional<LocalDate> ageBill = addressBook.findAge("Bill McKnight");
+    Optional<LocalDate> agePaul = addressBook.findAge("Paul Robinson");
+
+    long daysBetween = Duration.between(ageBill.get(), agePaul.get()).toDays();
+
+    assertEquals("2862", daysBetween);
   }
 
 }
